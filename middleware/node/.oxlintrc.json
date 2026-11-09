@@ -1,0 +1,20 @@
+{
+  "plugins": ["typescript", "unicorn", "import"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "rules": {
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "kebabCase": true
+        }
+      }
+    ],
+    "typescript/no-explicit-any": "error"
+  },
+  "ignorePatterns": ["dist/", "node_modules/"]
+}

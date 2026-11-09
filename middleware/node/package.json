@@ -1,0 +1,34 @@
+{
+  "name": "@spool/echo",
+  "version": "0.1.0",
+  "description": "Dev-only middleware that reports the request body as your app saw it to Spool, so it can diagnose webhook signature failures.",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "lint": "oxlint",
+    "format": "oxfmt ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "oxfmt": "^0.77.0",
+    "oxlint": "^1.92.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
