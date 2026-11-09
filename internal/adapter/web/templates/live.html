@@ -1,0 +1,71 @@
+{{define "live"}}
+<section class="panel">
+  <h2>Signature</h2>
+  {{with .Verification}}
+  <p class="verdict">
+    <span class="badge {{.Badge.Class}}">{{.Badge.Text}}</span>
+    <span>{{.Meaning}}</span>
+    <span class="muted">{{.Provider}} · <time datetime="{{.Time.ISO}}">{{.Time.Text}}</time></span>
+  </p>
+  {{if .Hints}}<ul class="hints">{{range .Hints}}<li>{{.}}</li>{{end}}</ul>{{end}}
+  {{if or .Expected .Got}}
+  <dl class="sig">
+    <div><dt>expected</dt><dd class="mono">{{.Expected}}</dd></div>
+    <div><dt>got</dt><dd class="mono">{{.Got}}</dd></div>
+  </dl>
+  {{end}}
+  {{with .Diff}}{{template "diff" .}}{{end}}
+  {{if .Fixes}}
+  <details class="fixes" open>
+    <summary>Verify the raw body in your framework</summary>
+    <dl>{{range .Fixes}}<dt>{{.Framework}}</dt><dd><code>{{.Snippet}}</code></dd>{{end}}</dl>
+  </details>
+  {{end}}
+  {{else}}
+  <p class="muted">Not verified yet. Use Verify to check the signature against the raw bytes.</p>
+  {{end}}
+</section>
+
+{{with .Seen}}
+<section class="panel">
+  <h2>Body seen by the app</h2>
+  {{if .Identical}}
+  <p class="verdict"><span class="badge ok">identical</span> The app received the exact raw bytes ({{.Size}} bytes).</p>
+  {{else}}{{template "diff" .Diff}}{{end}}
+</section>
+{{end}}
+
+<section class="panel">
+  <h2>Attempts <span class="count">{{len .Attempts}}</span></h2>
+  {{if .Attempts}}
+  <div class="scroll">
+    <table class="attempts">
+      <thead><tr><th>Started</th><th>Kind</th><th>Target</th><th>Status</th><th>Duration</th><th>Response</th></tr></thead>
+      <tbody>
+      {{range .Attempts}}
+      <tr>
+        <td class="nowrap"><time datetime="{{.Time.ISO}}">{{.Time.Text}}</time></td>
+        <td>{{.Kind}}{{if .Resigned}} <span class="badge info">re-signed</span>{{end}}</td>
+        <td class="mono url">{{.Target}}</td>
+        <td><span class="badge {{.Status.Class}}" title="{{.Status.Title}}">{{.Status.Text}}</span></td>
+        <td class="nowrap">{{.Duration}}</td>
+        <td class="mono resp">{{if .Error}}<span class="errtext">{{.Error}}</span>{{else}}{{.Response}}{{if .Truncated}}…{{end}}{{end}}</td>
+      </tr>
+      {{end}}
+      </tbody>
+    </table>
+  </div>
+  {{else}}
+  <p class="muted">Not delivered yet.</p>
+  {{end}}
+</section>
+{{end}}
+
+{{define "diff"}}
+<div class="diff">
+  {{if .Badge.Text}}<p class="verdict"><span class="badge {{.Badge.Class}}">{{.Badge.Text}}</span> <span>{{.Meaning}}</span></p>{{end}}
+  <p>First divergent byte at offset <strong>{{.Offset}}</strong>{{if .RawSHA256}} · raw {{.RawSize}} bytes, app {{.AppSize}} bytes{{end}}</p>
+  <pre class="code"><span class="lbl">raw</span> {{.Raw}}
+<span class="lbl">app</span> {{.App}}</pre>
+</div>
+{{end}}

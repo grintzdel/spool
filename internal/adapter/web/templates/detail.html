@@ -1,0 +1,54 @@
+{{define "detail"}}{{template "head" (printf "%s %s · spool" .Method .Target)}}
+<main>
+  <section class="summary">
+    <p class="crumb"><a href="/">← Inbox</a></p>
+    <h1><span class="method">{{.Method}}</span> <span class="path">{{.Target}}</span></h1>
+    <dl class="meta">
+      <div><dt>ID</dt><dd class="mono">{{.ID}}</dd></div>
+      <div><dt>Received</dt><dd><time datetime="{{.Time.ISO}}">{{.Time.Text}}</time></dd></div>
+      <div><dt>Provider</dt><dd>{{or .Provider "—"}}</dd></div>
+      <div><dt>Event</dt><dd class="mono">{{or .EventType "—"}}</dd></div>
+      <div><dt>Body</dt><dd>{{.Body.Size}} bytes · sha256 <span class="mono hash">{{.SHA256}}</span></dd></div>
+    </dl>
+    <div class="actions">
+      <button type="button" data-post="/api/requests/{{.ID}}/replay">Replay</button>
+      <button type="button" data-post="/api/requests/{{.ID}}/replay" data-body='{"resign":true}'>Replay re-signed</button>
+      <button type="button" data-post="/api/requests/{{.ID}}/verify">Verify</button>
+      <a class="button" href="/api/requests/{{.ID}}">JSON</a>
+    </div>
+    <p id="flash" class="flash" role="status" hidden></p>
+  </section>
+
+  <div id="live" data-id="{{.ID}}" hx-get="/r/{{.ID}}" hx-trigger="refresh delay:100ms">{{template "live" .Live}}</div>
+
+  <section class="panel">
+    <h2>Headers <span class="count">{{len .Headers}}</span></h2>
+    <table class="kv">
+      {{range .Headers}}<tr><th>{{.Name}}</th><td>{{.Value}}</td></tr>{{end}}
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Body</h2>
+    {{template "body" .Body}}
+  </section>
+
+  <section class="panel">
+    <h2>Copy as curl <button type="button" class="small" data-copy="curl">Copy</button></h2>
+    <pre id="curl" class="code">{{.Curl}}</pre>
+  </section>
+</main>
+{{template "foot"}}{{end}}
+
+{{define "body"}}{{if .Empty}}<p class="muted">Empty body.</p>{{else}}
+<div class="tabs">
+  {{if .Pretty}}<input type="radio" name="bodyview" id="v-pretty" checked><label for="v-pretty">Pretty</label>{{end}}
+  {{if not .Binary}}<input type="radio" name="bodyview" id="v-raw"{{if not .Pretty}} checked{{end}}><label for="v-raw">Raw</label>{{end}}
+  <input type="radio" name="bodyview" id="v-hex"{{if .Binary}} checked{{end}}><label for="v-hex">Hex</label>
+  {{if .Pretty}}<pre class="code pane p-pretty">{{.Pretty}}</pre>{{end}}
+  {{if not .Binary}}<pre class="code pane p-raw">{{.Raw}}{{if .Truncated}}
+… truncated at 1 MiB{{end}}</pre>{{end}}
+  <pre class="code pane p-hex">{{.Hex}}{{if .HexTruncated}}… truncated at 64 KiB{{end}}</pre>
+</div>
+{{if .Binary}}<p class="muted">Binary body: shown as hex only.</p>{{end}}
+{{end}}{{end}}

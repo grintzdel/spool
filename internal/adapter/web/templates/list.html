@@ -1,0 +1,32 @@
+{{define "list"}}{{template "head" "spool"}}
+<main class="wide">
+  <form class="filters" method="get" action="/">
+    <input type="search" name="provider" value="{{.Provider}}" placeholder="provider" aria-label="Provider">
+    <input type="search" name="event" value="{{.EventType}}" placeholder="event type" aria-label="Event type">
+    <label><input type="checkbox" name="failed" value="true"{{if .Failed}} checked{{end}}> failed only</label>
+    <button type="submit">Filter</button>
+    {{if .Filtered}}<a href="/">Clear</a>{{end}}
+  </form>
+  <div class="scroll">
+    <table class="requests">
+      <thead>
+        <tr><th>Received</th><th>Request</th><th>Provider</th><th>Event</th><th>Signature</th><th>App</th></tr>
+      </thead>
+      <tbody id="rows" hx-get="{{.Refresh}}" hx-trigger="refresh delay:150ms">{{template "rows" .}}</tbody>
+    </table>
+  </div>
+  {{if .Older}}<nav class="pager"><a href="{{.Older}}">Older →</a></nav>{{end}}
+</main>
+{{template "foot"}}{{end}}
+
+{{define "rows"}}{{range .Rows}}
+<tr>
+  <td class="nowrap"><time datetime="{{.Time.ISO}}">{{.Time.Text}}</time></td>
+  <td class="req"><a href="/r/{{.ID}}"><span class="method">{{.Method}}</span> <span class="path">{{.Target}}</span></a> <span class="id" title="{{.ID}}">{{.ShortID}}</span></td>
+  <td>{{or .Provider "—"}}</td>
+  <td class="mono">{{or .EventType "—"}}</td>
+  <td>{{with .Verification}}<span class="badge {{.Class}}" title="{{.Title}}">{{.Text}}</span>{{end}}</td>
+  <td>{{with .Status}}<span class="badge {{.Class}}" title="{{.Title}}">{{.Text}}</span>{{end}}</td>
+</tr>{{else}}
+<tr class="empty"><td colspan="6">No webhooks yet. Point a provider at the capture URL and they will show up here.</td></tr>{{end}}
+{{end}}
