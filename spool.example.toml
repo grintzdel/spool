@@ -1,0 +1,38 @@
+# Copy to .spool.toml (already in .gitignore). Every key is optional.
+
+# db = "~/.local/share/spool/spool.db"   # or $SPOOL_DB
+
+[serve]
+port = 7777
+bind = "127.0.0.1"
+ui_port = 7778
+forward = "http://localhost:3000"
+respond = "ack"          # ack | passthrough
+timeout = "10s"
+concurrency = 4
+max_body = 10485760
+
+[retention]
+max_age = "30d"
+max_requests = 10000
+
+[verify]
+tolerance = "300s"
+
+# Secrets: prefer environment variables ($SPOOL_STRIPE_SECRET, $SPOOL_GITHUB_SECRET).
+[providers.stripe]
+secret_env = "STRIPE_WEBHOOK_SECRET"
+
+[providers.github]
+secret_env = "GITHUB_WEBHOOK_SECRET"
+
+# Any HMAC scheme: declare a provider with a header.
+# [providers.acme]
+# header = "X-Acme-Signature"
+# timestamp_header = "X-Acme-Timestamp"
+# template = "{ts}.{body}"
+# algorithm = "sha256"     # sha1 | sha256 | sha512
+# encoding = "hex"         # hex | base64
+# prefix = "sha256="
+# event_header = "X-Acme-Event"
+# secret_env = "ACME_WEBHOOK_SECRET"

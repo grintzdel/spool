@@ -1,0 +1,10 @@
+/spool
+/dist/
+*.db
+*.db-shm
+*.db-wal
+.spool.toml
+coverage.out
+node_modules/
+.DS_Store
+.idea/
