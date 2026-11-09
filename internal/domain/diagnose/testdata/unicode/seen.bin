@@ -1,0 +1,11 @@
+{
+  "id": "evt_1",
+  "object": "event",
+  "data": {
+    "object": {
+      "amount": 2000,
+      "description": "Café crème"
+    }
+  },
+  "type": "payment_intent.succeeded"
+}

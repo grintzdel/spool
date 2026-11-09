@@ -1,0 +1,6 @@
+reason:  BODY_CHANGED (Content actually differs)
+raw:     184 bytes, sha256 5b4eceb225c46593f08f402f4d28cc76c3812ffe992527d9f9995799517fe00a
+app:     184 bytes, sha256 02a9f1c18886c75a949928323475d265f0922ff5dcd938ce32dc8758fcfb425a
+first divergent byte at offset 87
+  raw: …"\": {\n      \"amount\": 2000,\n      \"description\": "…
+  app: …"\": {\n      \"amount\": 2001,\n      \"description\": "…

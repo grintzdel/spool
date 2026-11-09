@@ -1,0 +1,6 @@
+reason:  BODY_UNICODE (Unicode escapes rewritten (\u00e9 vs é))
+raw:     184 bytes, sha256 5b4eceb225c46593f08f402f4d28cc76c3812ffe992527d9f9995799517fe00a
+app:     176 bytes, sha256 ed94361479ff7299329c34adb9676d85c18beddbef5e57a689dbf97e2917a570
+first divergent byte at offset 115
+  raw: …"     \"description\": \"Caf\\u00e9 cr\\u00e8me\"\n    }"…
+  app: …"     \"description\": \"Café crème\"\n    }\n  },\n  "…

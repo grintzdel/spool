@@ -1,0 +1,6 @@
+reason:  BODY_WHITESPACE (Difference limited to line endings, BOM or trailing newline)
+raw:     184 bytes, sha256 5b4eceb225c46593f08f402f4d28cc76c3812ffe992527d9f9995799517fe00a
+app:     187 bytes, sha256 acb9b7730f7fcff03c8bd7902e96508cf9e36c608edcbfd606b9dc8fd19718ca
+first divergent byte at offset 0
+  raw: "{\n  \"id\": \"evt_1\",\n  \"ob"…
+  app: "\ufeff{\n  \"id\": \"evt_1\",\n  "…

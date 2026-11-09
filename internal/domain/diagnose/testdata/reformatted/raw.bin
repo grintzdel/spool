@@ -1,0 +1,11 @@
+{
+  "id": "evt_1",
+  "object": "event",
+  "data": {
+    "object": {
+      "amount": 2000,
+      "description": "Caf\u00e9 cr\u00e8me"
+    }
+  },
+  "type": "payment_intent.succeeded"
+}

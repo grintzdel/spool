@@ -1,0 +1,6 @@
+reason:  BODY_REFORMATTED (Same JSON value, different bytes)
+raw:     27 bytes, sha256 2264bc15897da1c041ef3239cf57691d138613df77f16f73ab30b09dc22944c7
+app:     22 bytes, sha256 46915082d22e9f53ee719ab09470db396e6e0ef5fcd57182c9ce468d5cf88cc9
+first divergent byte at offset 10
+  raw: "{\"amount\": 1.0, \"big\": 1e2}"
+  app: "{\"amount\":1,\"big\":100}"

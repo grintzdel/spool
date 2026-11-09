@@ -1,0 +1,6 @@
+reason:  BODY_WHITESPACE (Difference limited to line endings, BOM or trailing newline)
+raw:     184 bytes, sha256 5b4eceb225c46593f08f402f4d28cc76c3812ffe992527d9f9995799517fe00a
+app:     183 bytes, sha256 e95ebcdd3b2b4fe74cd977536504b062b88722c9507afad5312e1c1b0426f246
+first divergent byte at offset 183
+  raw: …"ment_intent.succeeded\"\n}\n"
+  app: …"ment_intent.succeeded\"\n}"
